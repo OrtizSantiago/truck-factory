@@ -117,12 +117,53 @@ namespace NissanApi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Pickup",
+                columns: table => new
+                {
+                    PickupID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Code = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    MarketId = table.Column<long>(type: "bigint", nullable: false),
+                    Enabled = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedAt = table.Column<long>(type: "bigint", nullable: false),
+                    Deleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedUserID = table.Column<int>(type: "int", nullable: true),
+                    UpdatedUserID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pickup", x => x.PickupID);
+                    table.ForeignKey(
+                        name: "FK_Pickup_PropertyValue_MarketId",
+                        column: x => x.MarketId,
+                        principalTable: "PropertyValue",
+                        principalColumn: "PropertyValueID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Accessory_Code",
                 table: "Accessory",
                 column: "Code",
                 unique: true,
                 filter: "[Code] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pickup_Code",
+                table: "Pickup",
+                column: "Code",
+                unique: true,
+                filter: "[Code] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pickup_MarketId",
+                table: "Pickup",
+                column: "MarketId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Property_Code",
@@ -168,10 +209,13 @@ namespace NissanApi.Migrations
                 name: "Accessory");
 
             migrationBuilder.DropTable(
-                name: "PropertyValue");
+                name: "Pickup");
 
             migrationBuilder.DropTable(
                 name: "User");
+
+            migrationBuilder.DropTable(
+                name: "PropertyValue");
 
             migrationBuilder.DropTable(
                 name: "Property");

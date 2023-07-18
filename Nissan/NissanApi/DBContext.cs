@@ -17,6 +17,7 @@ namespace NissanApi
             Accessory = Set<Accessory>();
             Property = Set<Property>();
             PropertyValue = Set<PropertyValue>();
+            Pickup = Set<Pickup>();
 
         }
 
@@ -24,6 +25,7 @@ namespace NissanApi
         public DbSet<Accessory> Accessory { get; set; }
         public DbSet<Property> Property { get; set; }
         public DbSet<PropertyValue> PropertyValue { get; set; }
+        public DbSet<Pickup> Pickup { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,6 +33,7 @@ namespace NissanApi
             modelBuilder.Entity<User>().Property(k => k.Id).HasColumnName("UserID");
             modelBuilder.Entity<Property>().Property(k => k.Id).HasColumnName("PropertyID");
             modelBuilder.Entity<PropertyValue>().Property(k => k.Id).HasColumnName("PropertyValueID");
+            modelBuilder.Entity<Pickup>().Property(k => k.Id).HasColumnName("PickupID");
             base.OnModelCreating(modelBuilder);
         }
     }

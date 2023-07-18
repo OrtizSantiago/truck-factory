@@ -74,6 +74,60 @@ namespace NissanApi.Migrations
                     b.ToTable("Accessory");
                 });
 
+            modelBuilder.Entity("NissanApi.Models.Pickup", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("PickupID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<long>("CreatedAt")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("CreatedUserID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("MarketId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UpdatedAt")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("UpdatedUserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasFilter("[Code] IS NOT NULL");
+
+                    b.HasIndex("MarketId");
+
+                    b.ToTable("Pickup");
+                });
+
             modelBuilder.Entity("NissanApi.Models.Property", b =>
                 {
                     b.Property<long>("Id")
@@ -269,6 +323,17 @@ namespace NissanApi.Migrations
                         .IsUnique();
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("NissanApi.Models.Pickup", b =>
+                {
+                    b.HasOne("NissanApi.Models.PropertyValue", "Market")
+                        .WithMany()
+                        .HasForeignKey("MarketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Market");
                 });
 
             modelBuilder.Entity("NissanApi.Models.PropertyValue", b =>
